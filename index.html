@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>ESP32 Waterweight</title>
+    <meta name="description" content="ESP32 Waterweight with WebSocket">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link rel="icon" href="favicon.ico">
+    
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1 id="title">ESP32 Waterweight</h1>
+    </div>
+    <div class="measurement">
+        <canvas id="gauge"></canvas>
+        <p><span id="weight"></span> mV</p>
+    </div>
+    <div class="settings">
+        <form action="/get">
+            <input type="submit_empty" value="Set">
+        </form>
+        <form action="/get">
+            <input type="submit_medium" value="Set">
+        </form>
+        <form action="/get">
+            <input type="submit_full" value="Set">
+        </form>
+    </div>
+    <div class="footer">
+        <p>connected to <span id="ssid"></span></p>
+    </div>
+    <script src="js/gauge.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
