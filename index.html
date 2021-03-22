@@ -26,17 +26,13 @@
         <p><span id="weight"></span> mV</p>
     </div>
     <div class="settings">
-        <form action="/get">
-            <input type="submit_empty" value="Set">
-        </form>
-        <form action="/get">
-            <input type="submit_medium" value="Set">
-        </form>
-        <form action="/get">
-            <input type="submit_full" value="Set">
-        </form>
+        <br>
+        <button class="buttonRed" onclick="updateRed()">Update</button>
+        <button class="buttonYellow" onclick="updateYellow()">Update</button>
+        <button class="buttonGreen" onclick="updateGreen()">Update</button>
     </div>
     <div class="footer">
+        <br>
         <p>connected to <span id="ssid"></span></p>
     </div>
     <script src="js/gauge.js"></script>

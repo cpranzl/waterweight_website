@@ -1,3 +1,19 @@
+localStorage.setItem("red", 32);
+localStorage.setItem("yellow", 64);
+localStorage.setItem("green", 512);
+
+fetch("/red", {method:"GET"})
+    .then((request) => {return request.json()})
+    .then((json) => {setRed(json.red)})
+
+fetch("/yellow", {method:"GET"})
+    .then((request) => {return request.json()})
+    .then((json) => {setYellow(json.yellow)})
+
+fetch("/green", {method:"GET"})
+    .then((request) => {return request.json()})
+    .then((json) => {setGreen(json.green)})
+
 var opts = {
     angle: -0.25,
     lineWidth: 0.3,
@@ -9,13 +25,13 @@ var opts = {
     },
     staticLabels: {
         font: "10px sans-serif",
-        labels: [25, 50, 500],
+        labels: [32, 64, 512],
         fractionDigits: 0
     },
     staticZones: [
-        {strokeStyle: "#F03E3E", min: 0, max: 25},
-        {strokeStyle: "#FFDD00", min: 25, max: 50},
-        {strokeStyle: "#4CAF50", min: 50, max:500},
+        {strokeStyle: "#F03E3E", min: 0, max: localStorage.getItem("red")},
+        {strokeStyle: "#FFDD00", min: localStorage.getItem("red"), max: localStorage.getItem("yellow")},
+        {strokeStyle: "#4CAF50", min: localStorage.getItem("yellow"), max: localStorage.getItem("green")}
     ],
     limitMax: false,
     limitMin: false,
@@ -25,30 +41,61 @@ var target = document.getElementById('gauge');
 var gauge = new Gauge(target).setOptions(opts);
 document.getElementById("weight").className = "weight";
 gauge.setTextField(document.getElementById("weight"));
-gauge.maxValue = 500; // set max gauge value
+gauge.maxValue = 512; // set max gauge value
 gauge.setMinValue(0);  // set min value
-gauge.set(125) // set actual value
+UpdateWeight(128) // set start value
 
-function toggleCheckbox(element) {
-    var xhr = new XMLHttpRequest();
-    if(element.checked) {
-        xhr.open("GET", "/update?output="+element.id+"&state=1", true);
-    }
-    else { 
-        xhr.open("GET", "/update?output="+element.id+"&state=0", true); 
-    }
-    xhr.send();
-}
-
+// SSID
 const ssidElement = document.querySelector('#ssid')
 
 fetch("/ssid", {method:"GET"})
-        .then((request) => {return request.json()})
-        .then((json) => {ssidElement.textContent=json.ssid}) 
+    .then((request) => {return request.json()})
+    .then((json) => {ssidElement.textContent=json.ssid}) 
 
+// Weight
 setInterval(function ( ) {
     fetch("/weight", {method:"GET"})
         .then((request) => {return request.json()})
-        .then((json) => {gauge.set(json.weight)})
+        .then((json) => {UpdateWeight(json.weight)})
 }, 10000 );
- 
+
+function UpdateWeight(weight){
+    localStorage.setItem("weight", weight);
+    gauge.set(weight);
+    console.log(weight);
+}
+
+// Seetings
+function setRed(red) {
+    localStorage.setItem("red", red);
+    console.log(red);
+}
+
+function updateRed() {
+    red = localStorage.getItem("weight");
+    // 10.0.0.124/updateRed?red=nnn
+    localStorage.setItem("red", red);
+    UpdateWeight(red);
+}
+
+function setYellow(yellow) {
+    localStorage.setItem("yellow", yellow);
+    console.log(yellow);
+}
+
+function updateYellow() {
+    yellow = localStorage.getItem("weight");
+    // 10.0.0.124/updateRed?red=nnn
+    localStorage.setItem("yellow", yellow);
+}
+
+function setGreen(green) {
+    localStorage.setItem("green", green);
+    console.log(green);
+}
+
+function updateGreen() {
+    green = localStorage.getItem("weight");
+    // 10.0.0.124/updateRed?red=nnn
+    localStorage.setItem("green", green);
+}

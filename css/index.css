@@ -48,48 +48,48 @@ body {
 h1 {
     font-size: 1.5rem;
 }
-  
-input[type=submit_empty] {
-    width: 100%;
-    background-color: #F03E3E;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+
+.buttonRed {
+    background-color: #f03e3e;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-input[type=submit_medium] {
-    width: 100%;
-    background-color: #FFDD00;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
-input[type=submit_full] {
-    width: 100%;
-    background-color: #4CAF50;
+.buttonRed:hover {
+    background-color: #dd3939;
+}
+
+.buttonYellow {
+    background-color: #ffdd00;
+    border: none;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
-input[type=submit_empty]:hover {
-    background-color: #DD3939;
+.buttonYellow:hover {
+    background-color: #d3b700;
 }
 
-input[type=submit_medium]:hover {
-    background-color: #ECCD00;
+.buttonGreen {
+  background-color: #4Caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
-input[type=submit_full]:hover {
+.buttonGreen:hover {
     background-color: #45a049;
 }
