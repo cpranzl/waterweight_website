@@ -1,18 +1,4 @@
-localStorage.setItem("red", 32);
-localStorage.setItem("yellow", 64);
-localStorage.setItem("green", 512);
-
-fetch("/red", {method:"GET"})
-    .then((request) => {return request.json()})
-    .then((json) => {setRed(json.red)})
-
-fetch("/yellow", {method:"GET"})
-    .then((request) => {return request.json()})
-    .then((json) => {setYellow(json.yellow)})
-
-fetch("/green", {method:"GET"})
-    .then((request) => {return request.json()})
-    .then((json) => {setGreen(json.green)})
+M.AutoInit();
 
 var opts = {
     angle: -0.25,
@@ -29,9 +15,9 @@ var opts = {
         fractionDigits: 0
     },
     staticZones: [
-        {strokeStyle: "#F03E3E", min: 0, max: localStorage.getItem("red")},
-        {strokeStyle: "#FFDD00", min: localStorage.getItem("red"), max: localStorage.getItem("yellow")},
-        {strokeStyle: "#4CAF50", min: localStorage.getItem("yellow"), max: localStorage.getItem("green")}
+        {strokeStyle: "#F03E3E", min: 0, max: 32},
+        {strokeStyle: "#FFDD00", min: 32, max: 64},
+        {strokeStyle: "#4CAF50", min: 64, max: 512}
     ],
     limitMax: false,
     limitMin: false,
@@ -39,63 +25,60 @@ var opts = {
 };
 var target = document.getElementById('gauge');
 var gauge = new Gauge(target).setOptions(opts);
-document.getElementById("weight").className = "weight";
-gauge.setTextField(document.getElementById("weight"));
-gauge.maxValue = 512; // set max gauge value
-gauge.setMinValue(0);  // set min value
-UpdateWeight(128) // set start value
+document.getElementById("voltage").className = "voltage";
+gauge.setTextField(document.getElementById("voltage"));
+gauge.maxValue = 512; // Set max gauge value
+gauge.setMinValue(0);  // Set min value
+gauge.set(128) // Set start value
 
-// SSID
+fetch("/config", {method:"GET"})
+	.then((request) => {return request.json()})
+	.then((json) => {readConfig(json)})
+
+function readConfig(json) {
+	localStorage.setItem("red", json.red);
+	console.log(localStorage.getItem("red"));
+	localStorage.setItem("yellow", json.yellow);
+	console.log(localStorage.getItem("yellow"));
+	localStorage.setItem("green", json.green);
+	console.log(localStorage.getItem("green"));
+}
+const voltageElement = document.querySelector('#voltage')
+voltageElement.textContent = 0;
+setInterval(function (){
+	fetch("/voltage", {method:"GET"})
+	.then((request) => {return request.json()})
+	.then((json) => {updateVoltage(json.voltage)})
+}, 10000);
+
+function updateVoltage(voltage) {
+    voltageElement.textContent = voltage;
+    gauge.set(voltage);
+}
+
 const ssidElement = document.querySelector('#ssid')
-
 fetch("/ssid", {method:"GET"})
-    .then((request) => {return request.json()})
-    .then((json) => {ssidElement.textContent=json.ssid}) 
-
-// Weight
-setInterval(function ( ) {
-    fetch("/weight", {method:"GET"})
-        .then((request) => {return request.json()})
-        .then((json) => {UpdateWeight(json.weight)})
-}, 10000 );
-
-function UpdateWeight(weight){
-    localStorage.setItem("weight", weight);
-    gauge.set(weight);
-    console.log(weight);
-}
-
-// Seetings
-function setRed(red) {
-    localStorage.setItem("red", red);
-    console.log(red);
-}
+	.then((request) => {return request.json()})
+	.then((json) => {ssidElement.textContent=json.ssid})
 
 function updateRed() {
-    red = localStorage.getItem("weight");
-    // 10.0.0.124/updateRed?red=nnn
-    localStorage.setItem("red", red);
-    UpdateWeight(red);
-}
-
-function setYellow(yellow) {
-    localStorage.setItem("yellow", yellow);
-    console.log(yellow);
+    fetch(window.location.href + "updateRed?" + encodeQueryData({"red": voltageElement.textContent}));
+    localStorage.setItem("red", localStorage.getItem("voltage"));
 }
 
 function updateYellow() {
-    yellow = localStorage.getItem("weight");
-    // 10.0.0.124/updateRed?red=nnn
-    localStorage.setItem("yellow", yellow);
-}
-
-function setGreen(green) {
-    localStorage.setItem("green", green);
-    console.log(green);
+    fetch(window.location.href + "updateYellow?" + encodeQueryData({"yellow": voltageElement.textContent}));
+    localStorage.setItem("yellow", localStorage.getItem("voltage"));
 }
 
 function updateGreen() {
-    green = localStorage.getItem("weight");
-    // 10.0.0.124/updateRed?red=nnn
-    localStorage.setItem("green", green);
+    fetch(window.location.href + "updateGreen?" + encodeQueryData({"green": voltageElement.textContent}));
+    localStorage.setItem("green", localStorage.getItem("voltage"));
+}
+
+function encodeQueryData(data) {
+    const ret = [];
+    for (let d in data)
+        ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return ret.join('&');
 }

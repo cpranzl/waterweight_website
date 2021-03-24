@@ -2,9 +2,12 @@
 <html class="no-js" lang="">
 
 <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    
     <meta charset="utf-8">
     <title>ESP32 Waterweight</title>
-    <meta name="description" content="ESP32 Waterweight with WebSocket">
+    <meta name="description" content="ESP32 Waterweight with websockets">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <meta property="og:title" content="">
@@ -13,30 +16,50 @@
     <meta property="og:image" content="">
 
     <link rel="icon" href="favicon.ico">
-    
-    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <div class="header">
-        <h1 id="title">ESP32 Waterweight</h1>
+    <div class="container">
+        <div class="row center-align">
+            <div class="col s12"><h1 id="title">ESP Waterweight</h1></div>
+        </div>
+        <div class="row center-align">
+            <div class="measurement">
+                <canvas id="gauge"></canvas>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s12"><span class="flow-text center-align" id="voltage"></span> mV</div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4"><a class="waves-effect waves-light btn-large red" onclick="updateRed()">Update</a></div>
+            <div class="col s4"><a class="waves-effect waves-light btn-large yellow" onclick="updateYellow()">Update</a></div>
+            <div class="col s4"><a class="waves-effect waves-light btn-large green" onclick="updateGreen()">Update</a></div>
+        </div>
+        <div class="row center-align">
+            <div class="col s12">
+                MQTT
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s12">
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s12">connected to <span id="ssid"></span></div>
+        </div>
     </div>
-    <div class="measurement">
-        <canvas id="gauge"></canvas>
-        <p><span id="weight"></span> mV</p>
-    </div>
-    <div class="settings">
-        <br>
-        <button class="buttonRed" onclick="updateRed()">Update</button>
-        <button class="buttonYellow" onclick="updateYellow()">Update</button>
-        <button class="buttonGreen" onclick="updateGreen()">Update</button>
-    </div>
-    <div class="footer">
-        <br>
-        <p>connected to <span id="ssid"></span></p>
-    </div>
-    <script src="js/gauge.js"></script>
-    <script src="js/index.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/gauge.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 </body>
 
 </html>

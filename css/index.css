@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-html, body {
+html {
     margin: 0;
     font-family: Roboto, sans-serif;
     font-size: 12pt;
@@ -22,12 +22,6 @@ body {
 }
 
 .header {
-    display: grid;
-    grid-gap: 1em;
-    justify-items: center;
-}
-
-.measurement {
     display: grid;
     grid-gap: 1em;
     justify-items: center;
